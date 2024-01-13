@@ -6,7 +6,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-/* A nice wrapper for C 2D arrays. */
 struct matrix {
     size_t rows, cols;
     float** m;
