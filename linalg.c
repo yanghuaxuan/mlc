@@ -3,17 +3,36 @@
 
 #include <assert.h>
 
-void zeros(struct matrix *mat) 
+struct matrix* fromarr(struct matrix* mat, const int cols, const float arr[][cols]) {
+	if (!mat)
+		return NULL;
+
+	for(size_t i = 0; i < mat->rows; i++) {
+		for (size_t j = 0; j < mat->cols; j++) {
+			mat->m[i][j] = arr[i][j];
+		}
+	}
+	return mat;
+}
+
+struct matrix* zeros(struct matrix *mat) 
 {
+	if (!mat)
+		return NULL;
+
 	for (size_t i = 0; i < mat->rows; i++) {
 		for (size_t j = 0; i < mat->cols; i++) {
 			mat->m[i][j] = 0;
 		}
 	}
+	return mat;
 }
 
 struct matrix* matnew(struct arena* a, size_t rows, size_t cols) 
 {
+	if (!a)
+		return NULL;
+
 	struct matrix* mat = aalloc(a, sizeof(*a));
 	if (mat == NULL) {
 		return NULL;
@@ -24,7 +43,6 @@ struct matrix* matnew(struct arena* a, size_t rows, size_t cols)
 	for (size_t i = 0; i < rows; i++) {
 		mat->m[i] = aalloc(a, sizeof(mat->m[0]) * cols);
 	}
-	zeros(mat);
 
 	return mat;
 }

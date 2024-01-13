@@ -11,11 +11,14 @@ struct matrix {
     float** m;
 };
 
-/* Sets all values in m to zero */
-void zeros(struct matrix* m);
+/* Sets all values in m to zero, and return the given matrix */
+struct matrix* zeros(struct matrix* m);
 
-/* creates a new zero-filled matrix, allocating from given arena */
+/* creates a new uninitialized matrix, allocating from given arena */
 struct matrix* matnew(struct arena*, size_t rows, size_t cols);
+
+/* Set values of matrix to given arr*/
+struct matrix* fromarr(struct matrix* mat, const int cols, const float arr[][cols]);
 
 /* Performs a scalar product a 1D array
  *

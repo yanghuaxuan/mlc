@@ -6,16 +6,6 @@
 #include <assert.h>
 #include <stdbool.h>
 
-static inline struct matrix* fromarr(struct arena* arena, const int rows, const int cols, const float arr[rows][cols]) {
-	struct matrix* mat = matnew(arena, rows, cols);
-	for(size_t i = 0; i < mat->rows; i++) {
-		for (size_t j = 0; j < mat->cols; j++) {
-			mat->m[i][j] = arr[i][j];
-		}
-	}
-	return mat;
-}
-
 
 int main(void) {
 	{ /* Test dot product */
@@ -28,12 +18,12 @@ int main(void) {
 		if (!arena)
 			exit(1);
 
-		float a1[][3] = {{1,2,3}, {4,5,6}, {7,8,9}};
-		float a2[][3] = {{3,2,0}, {1,5,12}, {7,2,7}};
-		float ans[][3] = {{26,18,45},{59,45,102},{92,72,159}};
-		struct matrix* dst = matnew(arena, 3, 3);
-		struct matrix* m1 = fromarr(arena, 3, 3, a1);
-		struct matrix* m2 = fromarr(arena, 3, 3, a2);
+		const float a1[][3] = {{1,2,3}, {4,5,6}, {7,8,9}};
+		const float a2[][3] = {{3,2,0}, {1,5,12}, {7,2,7}};
+		const float ans[][3] = {{26,18,45},{59,45,102},{92,72,159}};
+		struct matrix* dst = zeros(matnew(arena, 3, 3));
+		struct matrix* m1 = fromarr(matnew(arena, 3, 3), 3, a1);
+		struct matrix* m2 = fromarr(matnew(arena, 3, 3), 3, a2);
 		if (!dst || !m1 || !m2)
 			exit(1);
 
@@ -49,12 +39,12 @@ int main(void) {
 		struct arena* arena = anew();
 		if (!arena)
 			exit(1);
-		float a1[][3] = {{1,2,3}, {4,5,6}, {7,8,9}};
-		float a2[][1] = {{1},{2},{3}};
-		float ans[][3] = {{14},{32},{50}};
-		struct matrix* dst = matnew(arena, 3, 1);
-		struct matrix* m1 = fromarr(arena, 3, 3, a1);
-		struct matrix* m2 = fromarr(arena, 3, 1, a2);
+		const float a1[][3] = {{1,2,3}, {4,5,6}, {7,8,9}};
+		const float a2[][1] = {{1},{2},{3}};
+		const float ans[][3] = {{14},{32},{50}};
+		struct matrix* dst = zeros(matnew(arena, 3, 1));
+		struct matrix* m1 = fromarr(matnew(arena, 3, 3), 3, a1);
+		struct matrix* m2 = fromarr(matnew(arena, 3, 1), 1, a2);
 		if (!dst || !m1 || !m2)
 			exit(1);
 		matmul(dst, m1, m2);
