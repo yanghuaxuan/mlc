@@ -58,4 +58,14 @@ int main(void) {
 		}
 		afree(arena);
 	}
+	{ /* Test randmat */
+		struct arena* arena = anew();
+		struct matrix* t = matrand(matnew(arena, 3, 3));
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				printf("%.2f ", t->m[i][j]);
+			}
+			printf("\n");
+		}
+	}
 }

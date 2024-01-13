@@ -11,6 +11,9 @@ struct matrix {
     float** m;
 };
 
+/* Sets all values in m to a random value, and return the given matrix */
+struct matrix* matrand(struct matrix* m);
+
 /* Sets all values in m to zero, and return the given matrix */
 struct matrix* zeros(struct matrix* m);
 

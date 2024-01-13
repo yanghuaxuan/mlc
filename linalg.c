@@ -2,6 +2,7 @@
 #include "arena.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 struct matrix* fromarr(struct matrix* mat, const int cols, const float arr[][cols]) {
 	if (!mat)
@@ -13,6 +14,18 @@ struct matrix* fromarr(struct matrix* mat, const int cols, const float arr[][col
 		}
 	}
 	return mat;
+}
+
+struct matrix* matrand(struct matrix* m) {
+	if (!m)
+		return NULL;
+
+	for (size_t i = 0; i < m->rows; i++) {
+		for (size_t j = 0; j < m->cols; j++) {
+			m->m[i][j] = (float)((double)rand() / RAND_MAX);
+		}
+	}
+	return m;
 }
 
 struct matrix* zeros(struct matrix *mat) 
