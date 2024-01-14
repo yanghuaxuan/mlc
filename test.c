@@ -1,5 +1,6 @@
 #include "arena.h"
 #include "linalg.h"
+#include "mlc.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -68,5 +69,15 @@ int main(void) {
 			printf("\n");
 		}
 		afree(arena);
+	}
+	{ /* Test neural network initialization */
+		struct arena* a = anew();
+			
+		struct nn* network = neunew(a, 3, sequential(a,  4, 
+					laynew(a, 4, activate), 
+					laynew(a, 3, activate), 
+					laynew(a, 1, activate)));
+
+		afree(a);
 	}
 }

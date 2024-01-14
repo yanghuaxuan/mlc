@@ -1,8 +1,11 @@
 CC := gcc
-CFLAGS := -W -Wall -pedantic -std=c99 -fsanitize=address -g -ggdb
+CFLAGS := -W -Wall -pedantic -std=c99 -lm -fsanitize=address -g -ggdb 
 
-test: test.c arena.o linalg.o
+test: test.c mlc.o arena.o linalg.o
 	$(CC) $(CFLAGS) -o $@ $^
+
+mlc.o: mlc.c 
+	$(CC) $(CFLAGS) -c -o $@ $^
 
 linalg.o: linalg.c 
 	$(CC) $(CFLAGS) -c -o $@ $^

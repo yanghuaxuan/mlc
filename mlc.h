@@ -7,7 +7,7 @@
 struct layer {
 	size_t weights;
 	float bias;
-	float (*activate)(float val);
+	float (*activate)(float);
 	float w[];
 };
 
@@ -17,8 +17,9 @@ struct nn {
 };
 
 struct layer* laynew(struct arena* arena, size_t weights, float (*activate)(float val));
+struct layer** sequential(struct arena* arena, size_t layers, ...);
 
-struct nn* neunew(struct arena* arena, struct layer** layers);
+struct nn* neunew(struct arena* arena, size_t layers, struct layer** l);
 
 // /* Calculate MSE */
 // float cost(int x, int y);
