@@ -4,57 +4,57 @@
 #include <assert.h>
 #include <stdlib.h>
 
-struct matrix* fromarr(struct matrix* mat, const int cols, const float arr[][cols]) {
-	if (!mat)
+struct matrix* fromarr(struct matrix* M, const int cols, const float arr[][cols]) {
+	if (!M)
 		return NULL;
 
-	for(size_t i = 0; i < mat->rows; i++) {
-		for (size_t j = 0; j < mat->cols; j++) {
-			mat->m[i][j] = arr[i][j];
+	for(size_t i = 0; i < M->rows; i++) {
+		for (size_t j = 0; j < M->cols; j++) {
+			M->m[i][j] = arr[i][j];
 		}
 	}
-	return mat;
+	return M;
 }
 
-struct matrix* matrand(struct matrix* m) {
-	if (!m)
+struct matrix* matrand(struct matrix* M) {
+	if (!M)
 		return NULL;
 
-	for (size_t i = 0; i < m->rows; i++) {
-		for (size_t j = 0; j < m->cols; j++) {
-			m->m[i][j] = (float)((double)rand() / RAND_MAX);
+	for (size_t i = 0; i < M->rows; i++) {
+		for (size_t j = 0; j < M->cols; j++) {
+			M->m[i][j] = (float)((double)rand() / RAND_MAX);
 		}
 	}
-	return m;
+	return M;
 }
 
-struct matrix* zeros(struct matrix *mat) 
+struct matrix* zeros(struct matrix *M) 
 {
-	if (!mat)
+	if (!M)
 		return NULL;
 
-	for (size_t i = 0; i < mat->rows; i++) {
-		for (size_t j = 0; i < mat->cols; i++) {
-			mat->m[i][j] = 0;
+	for (size_t i = 0; i < M->rows; i++) {
+		for (size_t j = 0; i < M->cols; i++) {
+			M->m[i][j] = 0;
 		}
 	}
-	return mat;
+	return M;
 }
 
-struct matrix* matnew(struct arena* a, size_t rows, size_t cols) 
+struct matrix* matnew(struct arena* arena, size_t rows, size_t cols) 
 {
-	if (!a)
+	if (!arena)
 		return NULL;
 
-	struct matrix* mat = aalloc(a, sizeof(*a));
+	struct matrix* mat = aalloc(arena, sizeof(*mat));
 	if (mat == NULL) {
 		return NULL;
 	}
 	mat->rows = rows;
 	mat->cols = cols;
-	mat->m = aalloc(a, sizeof(mat->m) * rows);
+	mat->m = aalloc(arena, sizeof(mat->m) * rows);
 	for (size_t i = 0; i < rows; i++) {
-		mat->m[i] = aalloc(a, sizeof(mat->m[0]) * cols);
+		mat->m[i] = aalloc(arena, sizeof(mat->m[0]) * cols);
 	}
 
 	return mat;
@@ -70,26 +70,26 @@ float dot(float a[], float b[], size_t len)
 }
 
 /* Private routine used for dot product in matmul*/
-static float dotm(float a[], struct matrix* b, size_t length, size_t col) {
-	assert(b->rows == length);
+static float dotm(float a[], struct matrix* B, size_t length, size_t col) {
+	assert(B->rows == length);
 
 	float dot = 0;
 	for (size_t i = 0; i < length; i++) {
-		dot += a[i] * (b->m[i][col]);
+		dot += a[i] * (B->m[i][col]);
 	}
 	return dot;
 }
 
-bool matmul(struct matrix* dst, struct matrix* a, struct matrix* b) 
+bool matmul(struct matrix* dst, struct matrix* A, struct matrix* B) 
 {
-	if (a->cols != b->rows   || 
-	    dst->rows != a->rows || 
-	    dst->cols != b->cols) {
+	if (A->cols != B->rows   || 
+	    dst->rows != A->rows || 
+	    dst->cols != B->cols) {
 		return false;
 	}
-	for (size_t i = 0; i < a->rows; i++) {
-		for (size_t j = 0; j < b->cols; j++) {
-			dst->m[i][j] = dotm(a->m[i], b, a->cols, j);
+	for (size_t i = 0; i < A->rows; i++) {
+		for (size_t j = 0; j < B->cols; j++) {
+			dst->m[i][j] = dotm(A->m[i], B, A->cols, j);
 		}
 	}
 

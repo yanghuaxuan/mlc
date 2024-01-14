@@ -67,5 +67,6 @@ int main(void) {
 			}
 			printf("\n");
 		}
+		afree(arena);
 	}
 }
