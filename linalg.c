@@ -46,13 +46,12 @@ struct matrix* matnew(struct arena* arena, size_t rows, size_t cols)
 	if (!arena)
 		return NULL;
 
-	struct matrix* mat = aalloc(arena, sizeof(*mat));
+	struct matrix* mat = aalloc(arena, sizeof(*mat) + sizeof(float *) * rows);
 	if (mat == NULL) {
 		return NULL;
 	}
 	mat->rows = rows;
 	mat->cols = cols;
-	mat->m = aalloc(arena, sizeof(mat->m) * rows);
 	for (size_t i = 0; i < rows; i++) {
 		mat->m[i] = aalloc(arena, sizeof(mat->m[0]) * cols);
 	}

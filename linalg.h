@@ -7,8 +7,8 @@
 #include <stdbool.h>
 
 struct matrix {
-    size_t rows, cols;
-    float** m;
+	size_t rows, cols;
+	float* m[/* rows */];
 };
 
 /* Sets all values in m to a random value, and return the given matrix */
